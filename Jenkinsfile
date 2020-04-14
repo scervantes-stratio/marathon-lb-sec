@@ -13,7 +13,7 @@ hose {
     GENERATE_QA_ISSUE = true
     INSTALLTIMEOUT = 120
 
-    ANCHORE_POLICY = 'production'
+    ANCHORE_POLICY = 'marathon-lb-sec'
     ANCHORE_TEST = true
 
     INSTALLSERVICES = [
