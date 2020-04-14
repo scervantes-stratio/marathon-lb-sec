@@ -2,6 +2,7 @@
 
 ## 0.6.2 (upcoming)
 
+* Change Anchore policy
 * [EOS-3590] Fix Vault token renewal
 
 ## 0.6.1 (March 20, 2020)
