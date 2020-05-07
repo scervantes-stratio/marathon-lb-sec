@@ -1,4 +1,4 @@
-@rest @dcos
+@dcos
 @mandatory(BOOTSTRAP_IP,REMOTE_USER,PEM_FILE_PATH,EOS_INSTALLER_VERSION,DCOS_PASSWORD,DCOS_CLI_HOST,DCOS_CLI_USER,DCOS_CLI_PASSWORD)
 Feature:[MARATHONLB-1386] Deploying marathon-lb-sec with an nginx certificate
 
@@ -27,7 +27,7 @@ Feature:[MARATHONLB-1386] Deploying marathon-lb-sec with an nginx certificate
     And I wait '60' seconds
     And I open a ssh connection to '${DCOS_CLI_HOST}' with user '${DCOS_CLI_USER}' and password '${DCOS_CLI_PASSWORD}'
     And I outbound copy 'src/test/resources/schemas/nginx-qa-config.json' through a ssh connection to '/tmp'
-    And I run 'sed -i -e '/"HAPROXY_0_PATH": null,/d' -e 's/"HAPROXY_0_VHOST": "nginx-qa.labs.stratio.com"/"HAPROXY_0_VHOST": "nginx-qa.!{EOS_DNS_SEARCH}"/g' /tmp/nginx-qa-config.json ; dcos marathon app add /tmp/nginx-qa-config.json ; rm -f /tmp/nginx-qa-config.json' in the ssh connection
+    And I run 'sed -i -e 's/qa.stratio.com/!{EXTERNAL_DOCKER_REGISTRY}/g' -e '/"HAPROXY_0_PATH": null,/d' -e 's/"HAPROXY_0_VHOST": "nginx-qa.labs.stratio.com"/"HAPROXY_0_VHOST": "nginx-qa.!{EOS_DNS_SEARCH}"/g' /tmp/nginx-qa-config.json ; dcos marathon app add /tmp/nginx-qa-config.json ; rm -f /tmp/nginx-qa-config.json' in the ssh connection
     Then in less than '300' seconds, checking each '20' seconds, the command output 'dcos task | grep nginx-qa | grep R | wc -l' contains '1'
     When I run 'dcos task | grep marathonlb | tail -1 | awk '{print $5}'' in the ssh connection and save the value in environment variable 'TaskID'
     And I run 'dcos marathon task list nginx-qa | awk '{print $5}' | grep nginx-qa' in the ssh connection and save the value in environment variable 'nginx-qaTaskId'

@@ -1,10 +1,8 @@
-@rest @dcos
+@dcos
 @mandatory(BOOTSTRAP_IP,REMOTE_USER,PEM_FILE_PATH,DCOS_PASSWORD)
 Feature: [QATM-1870] Check Marathon-LB deployment
 
   Scenario:[01] Check correct deployment
-    Given I set sso token using host '!{EOS_ACCESS_POINT}' with user '!{DCOS_USER}' and password '${DCOS_PASSWORD}' and tenant '!{DCOS_TENANT}'
-    And I securely send requests to '!{EOS_ACCESS_POINT}:443'
     # Check status in API
     Then in less than '1200' seconds, checking each '20' seconds, I check in CCT that the service 'marathonlb' is in 'running' status
     Then in less than '1200' seconds, checking each '20' seconds, I check in CCT that the service 'marathonlb' is in 'healthy' status
