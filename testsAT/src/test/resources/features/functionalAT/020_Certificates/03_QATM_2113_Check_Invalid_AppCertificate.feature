@@ -24,7 +24,7 @@ Feature:[QATM-2113] Download certificates only of new deployed apps - Invalid ce
   Scenario:[03] Deploying nginx-qa without valid certificate
     Given I open a ssh connection to '${DCOS_CLI_HOST}' with user '${DCOS_CLI_USER}' and password '${DCOS_CLI_PASSWORD}'
     And I outbound copy 'src/test/resources/schemas/nginx-qa-config.json' through a ssh connection to '/tmp'
-    And I run 'sed -i '/"HAPROXY_0_PATH": null,/d' /tmp/nginx-qa-config.json ; dcos marathon app add /tmp/nginx-qa-config.json ; rm -f /tmp/nginx-qa-config.json' in the ssh connection
+    And I run 'sed -i -e 's/qa.stratio.com/!{EXTERNAL_DOCKER_REGISTRY}/g' -e '/"HAPROXY_0_PATH": null,/d' /tmp/nginx-qa-config.json ; dcos marathon app add /tmp/nginx-qa-config.json ; rm -f /tmp/nginx-qa-config.json' in the ssh connection
     Then in less than '300' seconds, checking each '10' seconds, the command output 'dcos task | grep nginx-qa | grep R | wc -l' contains '1'
     When I run 'dcos task | grep marathon.*lb.* | tail -1 | awk '{print $5}'' in the ssh connection and save the value in environment variable 'TaskID'
     And I run 'dcos marathon task list nginx-qa | awk '{print $5}' | grep nginx-qa' in the ssh connection and save the value in environment variable 'nginx-qaTaskId'

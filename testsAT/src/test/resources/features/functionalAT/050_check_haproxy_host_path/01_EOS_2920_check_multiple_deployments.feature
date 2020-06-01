@@ -10,7 +10,7 @@ Feature: Check multiple deployments which share vhost
       | $.labels.HAPROXY_0_BACKEND_WEIGHT   | REPLACE | <weight>      | string |
       | $.labels.DCOS_PACKAGE_NAME          | REPLACE | <id>          | string |
       | $.labels.DCOS_SERVICE_NAME          | REPLACE | <id>          | string |
-      | $.container.docker.image            | UPDATE  | qa.stratio.com/nginx:1.10.3-alpine | n/a |
+      | $.container.docker.image            | UPDATE  | !{EXTERNAL_DOCKER_REGISTRY}/nginx:1.10.3-alpine | n/a |
     Given I open a ssh connection to '${DCOS_CLI_HOST}' with user '${DCOS_CLI_USER}' and password '${DCOS_CLI_PASSWORD}'
     And I outbound copy 'target/test-classes/<id>-config.json' through a ssh connection to '/tmp'
     And I run 'dcos marathon app add /tmp/<id>-config.json' in the ssh connection
@@ -26,7 +26,7 @@ Feature: Check multiple deployments which share vhost
     Given I open a ssh connection to '${DCOS_CLI_HOST}' with user '${DCOS_CLI_USER}' and password '${DCOS_CLI_PASSWORD}'
     And in less than '100' seconds, checking each '10' seconds, the command output 'dcos task | grep -w '<id>' | awk '{print $4}' | grep R | wc -l' contains '1' with exit status '0'
     And I run 'dcos marathon task list | grep -w /'<id>' | grep True | awk '{print $5}'' in the ssh connection with exit status '0' and save the value in environment variable 'nginxTaskId'
-    And I run 'dcos marathon task show !{nginxTaskId} | jq 'select(.state=="TASK_RUNNING" and .healthCheckResults[].alive==true)'' in the ssh connection with exit status '0'
+    And in less than '100' seconds, checking each '10' seconds, the command output 'dcos marathon task show !{nginxTaskId} | jq -c 'select(.state=="TASK_RUNNING" and .healthCheckResults[].alive==true)' | wc -l' contains '1' with exit status '0'
     Examples:
       | id                   |
       | nginx-qa-testqa      |
