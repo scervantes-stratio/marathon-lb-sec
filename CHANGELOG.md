@@ -4,7 +4,7 @@
 
 * Pending changelog
 
-## 0.7.0-62c453c (Built: June 01, 2020 | Pre-release)
+## 0.7.0-62c453c (Built: June 01, 2020 | Released: June 19, 2020)
 
 * Change Anchore policy
 * [EOS-3590] Fix Vault token renewal
