@@ -1,15 +1,11 @@
-@Library('libpipelines@master') _
+@Library('libpipelines') _
 
 hose {
     EMAIL = 'qa'
     DEVTIMEOUT = 20
     RELEASETIMEOUT = 20
-    MODULE = 'marathon-lb'
-    REPOSITORY = 'marathon-lb-sec'
-    PKGMODULESNAMES = ['marathon-lb-sec']
     QA_ISSUE_PROJECT = 'EOS'
     BUILDTOOL = 'make'
-    NEW_VERSIONING = true
     GENERATE_QA_ISSUE = true
     INSTALLTIMEOUT = 120
 
@@ -58,7 +54,7 @@ hose {
                     | """.stripMargin().stripIndent()
                     
     DEV = { config ->
-        doDocker(config)
+        doDocker(conf: config, image: 'marathon-lb-sec')
     }
 
     INSTALL = { config, params ->
