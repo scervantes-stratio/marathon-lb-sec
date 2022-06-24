@@ -5,7 +5,7 @@ hose {
     DEVTIMEOUT = 20
     RELEASETIMEOUT = 20
     QA_ISSUE_PROJECT = 'EOS'
-    BUILDTOOL_IMAGE = 'qa.int.stratio.com:11443/stratio/keos-builder:0.2.0-PR13-SNAPSHOT'
+    BUILDTOOL_IMAGE = 'qa.int.stratio.com:8443/stratio/keos-builder:0.2.0-PR13-SNAPSHOT'
     BUILDTOOL = 'make'
     GENERATE_QA_ISSUE = true
     INSTALLTIMEOUT = 120
