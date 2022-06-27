@@ -1,6 +1,6 @@
-cryptography
+cryptography==2.9.2
 PyJWT==1.7.1
-pycurl
-python-dateutil
-requests
-six
+pycurl==7.43.0.5
+python-dateutil==2.8.1
+requests==2.23.0
+six==1.15.0
